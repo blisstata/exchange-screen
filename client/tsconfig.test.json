@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es6",
+        "rootDir": "./src",
+        "jsx": "react"
+    },
+    "exclude": [
+        "src/*.less",
+        "src/**/*.less",
+        "src/**/**/*.less"
+    ]
+}

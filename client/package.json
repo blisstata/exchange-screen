@@ -1,0 +1,82 @@
+{
+  "name": "revolut",
+  "version": "1.0.0",
+  "description": "Revolut FX",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "webpack-dev-server --hot --open",
+    "build": "node_modules/.bin/webpack --config webpack.prod.js --mode production",
+    "serve": "node_modules/.bin/http-server ./dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/node": "^12.11.7",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.3",
+    "@types/react-redux": "^7.1.5",
+    "@types/react-router-dom": "^5.1.2",
+    "@types/sinon": "^7.5.0",
+    "autoprefixer": "^9.7.1",
+    "banknote": "^0.2.1",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "postcss-bem-linter": "^3.3.0",
+    "postcss-loader": "^3.0.0",
+    "raw-loader": "^3.1.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-svg-loader": "^3.0.3",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "sinon": "^7.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@svgr/webpack": "^4.3.3",
+    "@types/enzyme": "^3.10.3",
+    "@types/jest": "^24.0.21",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "enzyme-to-json": "^3.4.3",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
+    "jest": "^24.9.0",
+    "jest-transform-stub": "^2.0.0",
+    "react-test-renderer": "^16.11.0",
+    "style-loader": "^1.0.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "./src/setupTests.js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "./src/test-preprocessor.js"
+    },
+    "moduleNameMapper": {
+      "\\.(css|less|svg)$": "jest-transform-stub"
+    }
+  },
+  "proxy": "http://localhost:4000"
+}
