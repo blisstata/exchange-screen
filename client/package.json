@@ -13,15 +13,22 @@
   "license": "ISC",
   "dependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@types/assert": "^1.4.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/fetch-mock": "^7.3.1",
     "@types/node": "^12.11.7",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.2",
+    "@types/react-test-renderer": "^16.9.1",
+    "@types/redux-mock-store": "^1.0.1",
     "@types/sinon": "^7.5.0",
+    "assert": "^2.0.0",
     "autoprefixer": "^9.7.1",
     "banknote": "^0.2.1",
+    "cross-fetch": "^3.0.4",
+    "fetch-mock": "^7.7.3",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "postcss-bem-linter": "^3.3.0",
@@ -33,6 +40,7 @@
     "react-router-dom": "^5.1.2",
     "react-svg-loader": "^3.0.3",
     "redux": "^4.0.4",
+    "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "sinon": "^7.5.0"
   },
@@ -76,7 +84,17 @@
     },
     "moduleNameMapper": {
       "\\.(css|less|svg)$": "jest-transform-stub"
-    }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      "/(?!.d.ts)/"
+    ]
   },
   "proxy": "http://localhost:4000"
 }
