@@ -1,12 +1,14 @@
+import { Dispatch } from 'redux';
+import 'cross-fetch/polyfill';
 import { GET_WALLETS, UPDATE_WALLETS } from './types';
 
 interface WalletPrice {
     currency: string;
-    price: number
+    price: string;
 }
 
 export const getWallets = () => (dispatch: any) => {
-    fetch(`http://localhost:4000/home`)
+    return fetch(`http://localhost:4000/wallets`)
     .then(response => response.json())
     .then(response => {
         // handle success
@@ -22,7 +24,7 @@ export const getWallets = () => (dispatch: any) => {
     })
 }
 
-export const updateWallets = (walletPrices: Array<WalletPrice>) => (dispatch: any) => {
+export const updateWallets = (walletPrices: Array<WalletPrice>) => (dispatch: Dispatch) => {
     dispatch({
         type: UPDATE_WALLETS,
         payload: walletPrices

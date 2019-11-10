@@ -1,10 +1,42 @@
-import { GET_EXCHANGE_RATES, TOGGLE_EXCHANGE, SET_EXCHANGE_AMOUNT } from '../actions/types';
+import {
+    GET_EXCHANGE_RATES,
+    TOGGLE_EXCHANGE,
+    SET_EXCHANGE_AMOUNT,
+    TOGGLE_EXCHANGE_CURRENCY_OPTIONS,
+    TOGGLE_BASE_CURRENCY_OPTIONS,
+    SELECT_BASE_CURRENCY,
+    SELECT_EXCHANGE_CURRENCY,
+    ENABLE_EXCHANGE_AMOUNT,
+    DISABLE_EXCHANGE_AMOUNT,
+    NO_INITIATE_TRANSFER,
+    INITIATE_TRANSFER_FAILED,
+    INITIATE_TRANSFER
+} from '../actions/types';
 import { FormatMoney } from '../../../server/format-money';
-const initialState = {
+
+export interface Exchange {
+    showExchange: boolean;
+    baseAmount: number;
+    exchangedAmount: number;
+    baseCurrency: string;
+    exchangeCurrency?: string;
+    exchangedFormattedAmount: string;
+    rate?: number;
+    formattedRate?: string;
+    showExchangeCurrencyOptions: boolean;
+    showBaseCurrencyOptions: boolean;
+    amountReadOnly?: boolean;
+    error?: string;
+}
+
+const initialState: Exchange = {
     showExchange: false,
     baseAmount: 0,
     exchangedAmount: 0,
-    exchangedFormattedAmount: 0
+    exchangedFormattedAmount: '',
+    showExchangeCurrencyOptions: false,
+    showBaseCurrencyOptions: false,
+    baseCurrency: ''
 }
 
 export const exchangeReducer = (state = initialState, action: any)=> {
@@ -16,14 +48,22 @@ export const exchangeReducer = (state = initialState, action: any)=> {
                     ...state,
                     ...formatMoney(rate, key),
                     exchangedFormattedAmount: formatMoney(state.exchangedAmount, key).formattedRate
-                }
+                };
             }
         }
-        case TOGGLE_EXCHANGE:
+        case TOGGLE_EXCHANGE: {
             return {
                 ...state,
-                showExchange: !state.showExchange
-            }
+                showExchange: !state.showExchange,
+                exchangeCurrencyValue: '',
+                baseCurrencyValue: '',
+                baseAmount: 0,
+                formattedRate: '',
+                exchangedFormattedAmount: '',
+                baseCurrency: '',
+                exchangeCurrency: ''
+            };
+        }
         case SET_EXCHANGE_AMOUNT: {
             const baseAmount = parseFloat(action.payload);
             const exchangedAmount = parseFloat(action.payload) * state.rate;
@@ -31,15 +71,75 @@ export const exchangeReducer = (state = initialState, action: any)=> {
                 ...state,
                 baseAmount,
                 exchangedAmount, 
-                exchangedFormattedAmount: formatMoney(exchangedAmount, state.currency).formattedRate
-            }
+                exchangedFormattedAmount: formatMoney(exchangedAmount, state.exchangeCurrency).formattedRate
+            };
+        }
+        case TOGGLE_EXCHANGE_CURRENCY_OPTIONS: {
+            return {
+                ...state,
+                showExchangeCurrencyOptions: !state.showExchangeCurrencyOptions
+            };
+        }
+        case TOGGLE_BASE_CURRENCY_OPTIONS: {
+            return {
+                ...state,
+                showBaseCurrencyOptions: !state.showBaseCurrencyOptions
+            } ;
+        }
+        case SELECT_BASE_CURRENCY: {
+            return {
+                ...state,
+                baseCurrency: action.currency,
+                baseCurrencyValue: `${action.currency} - Balance ${action.balance}`,
+                showBaseCurrencyOptions: false
+            };
+        }
+        case SELECT_EXCHANGE_CURRENCY: {
+            return {
+                ...state,
+                exchangeCurrency: action.currency,
+                exchangeCurrencyValue: `${action.currency} - Balance ${action.balance}`,
+                showExchangeCurrencyOptions: false
+            };
+        }
+        case ENABLE_EXCHANGE_AMOUNT: {
+            return {
+                ...state,
+                error: '',
+                amountReadOnly: false
+            };
+        }
+        case DISABLE_EXCHANGE_AMOUNT: {
+            return {
+                ...state,
+                error: 'Please select a different currency',
+                amountReadOnly: true
+            };
+        }
+        case NO_INITIATE_TRANSFER: {
+            return {
+                ...state,
+                error: 'Please give amount to be transferred'
+            };
+        }
+        case INITIATE_TRANSFER_FAILED: {
+            return {
+                ...state,
+                error: 'The given amount is greater than the balance'
+            };
+        }
+        case INITIATE_TRANSFER: {
+            return {
+                ...state,
+                error: ''
+            };
         }
         default:
             return state;    
     }
 }
 
-const formatMoney = (rate: string, key: string) => {
+const formatMoney = (rate: number, key: string) => {
     const formattedRate = FormatMoney({
         amount: parseFloat(rate),
         currency: key
@@ -47,7 +147,6 @@ const formatMoney = (rate: string, key: string) => {
     
     return {
         formattedRate,
-        rate,
-        currency: key
+        rate
     };
 }

@@ -17,10 +17,10 @@ export const Wallet = (props: WalletProps) => {
                 </Text>
             </div>
             <div className={`${BASE_CLASS}-balance`}>
-                <Text type={TextType.detailTextBold} textColor={TextColor.gray}>
+                <Text type={TextType.detailTextBold} textColor={TextColor.gray} data-id='balance'>
                     Balance
                 </Text>
-                <Text type={TextType.title2} textColor={TextColor.mediumgray}>
+                <Text type={TextType.title2} textColor={TextColor.mediumgray} data-id='formattedMoney'>
                     {props.formattedMoney}
                 </Text>
             </div>

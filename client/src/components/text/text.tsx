@@ -29,7 +29,7 @@ export enum TextColor {
 
 export interface TextProps {
     type?: TextType;
-    children?: string;
+    children?: any;
     textTransform?: TextTransform;
     textColor?: TextColor;
 }

@@ -2,11 +2,15 @@ import { GET_WALLETS, UPDATE_WALLETS } from '../actions/types';
 import { FormatMoney, Money } from '../../../server/format-money';
 import { Wallet } from '../components/wallet/wallets';
 
-const initialState = {
+export interface Wallets {
+    wallets?: Array<Wallet>;
+}
+
+const initialState: Wallets = {
     wallets: []
 };
 
-export const walletReducer = (state = initialState, action: any)=> {
+export const walletReducer = (state = initialState, action: any) => {
     switch(action.type) {
         case GET_WALLETS: {
             const wallets = action.payload.wallets;
@@ -17,6 +21,7 @@ export const walletReducer = (state = initialState, action: any)=> {
                 }
           
                 const formattedMoney = FormatMoney(money);
+                
                 return {
                   ...wallet,
                   formattedMoney
@@ -30,14 +35,15 @@ export const walletReducer = (state = initialState, action: any)=> {
         case UPDATE_WALLETS: {
             const wallets = action.payload;
             const updatedWallets = state.wallets.map((wallet) => {
-                const index = wallets.findIndex(updatedWallet => updatedWallet.currency === wallet.currency);
+                const index = wallets.findIndex((updatedWallet: any) => updatedWallet.currency === wallet.currency);
+                
                 if(index > -1) {
                     const balance = wallet.balance + parseFloat(wallets[index].price);
                     if(balance >= 0) {
                         const formattedBalance = FormatMoney({
                             amount: balance,
                             currency: wallet.currency
-                        })
+                        });
                         return {
                             ...wallet,
                             balance,
